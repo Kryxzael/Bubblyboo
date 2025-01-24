@@ -1,0 +1,89 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Bubble : MonoBehaviour
+{
+    private SpriteRenderer _sprite;
+    private Vector3 _cursorLastPosition;
+    private Vector3 _originalPosition;
+
+    public bool IsPopped;
+
+    [Header("Greefiks")]
+    public Sprite SpriteUnpopped;
+    public Sprite SpritePopped;
+    
+    public float PoppingScale = 1.5f;
+    public float PoppingTime = 0.25f;
+    public float PopBackTime = 0.25f;
+
+    public float DragWithCursorForce = 0.02f;
+    public float DragWithCursorResistance = 0.01f;
+    public float DragWithCursorReleaseForce = 0.01f;
+
+    void Start()
+    {
+        _sprite = GetComponent<SpriteRenderer>();
+        _sprite.sprite = SpriteUnpopped;
+        _originalPosition = transform.position;
+    }
+
+    private void OnMouseDown()
+    {
+        if (!IsPopped && Game.Instance.Turns > 0)
+        {
+            Pop();
+        }
+    }
+
+    private void OnMouseEnter()
+    {
+        _cursorLastPosition = Input.mousePosition;
+    }
+
+    private void OnMouseOver()
+    {
+        if (IsPopped)
+            return; 
+
+        Vector3 mouseDelta = Input.mousePosition - _cursorLastPosition;
+        transform.position = Vector2.Lerp(transform.position, transform.position + mouseDelta, DragWithCursorForce);
+
+        _cursorLastPosition = Input.mousePosition;
+
+    }
+
+    private void Update()
+    {
+        transform.position = Vector2.Lerp(transform.position, _originalPosition, DragWithCursorReleaseForce);
+    }
+
+    public void Pop() 
+    {
+        Game.Instance.Turns--;
+        StartCoroutine(CoPop());
+    }
+
+    private IEnumerator CoPop()
+    {
+        IsPopped = true;
+        yield return StartCoroutine(CoScaleTo(PoppingScale, PoppingTime));
+        _sprite.sprite = SpritePopped;
+        yield return StartCoroutine(CoScaleTo(1f, PoppingTime));
+    }
+
+    private IEnumerator CoScaleTo(float scalar, float time) 
+    {
+        float timer = 0;
+        Vector3 oldScale = transform.localScale;
+        Vector3 newScale = oldScale * scalar;
+
+        while (timer < time)
+        {
+            transform.localScale = Vector3.Lerp(oldScale, newScale, timer / time);
+            timer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+    }
+}
