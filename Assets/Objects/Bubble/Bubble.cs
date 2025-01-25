@@ -1,12 +1,16 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bubble : MonoBehaviour
+public abstract class Bubble : MonoBehaviour
 {
     private SpriteRenderer _sprite;
     private Vector3 _cursorLastPosition;
     private Vector3 _originalPosition;
+
+    public Vector2Int GridPosition { get; set; }
+    public bool IsCurrentlyScoring { get; private set; }
 
     public bool IsPopped;
 
@@ -14,13 +18,13 @@ public class Bubble : MonoBehaviour
     public Sprite SpriteUnpopped;
     public Sprite SpritePopped;
     
-    public float PoppingScale = 1.5f;
-    public float PoppingTime = 0.25f;
-    public float PopBackTime = 0.25f;
+    public float PoppingScale = 1.25f;
+    public float PoppingTime = 0.15f;
+    public float PopBackTime = 0.075f;
 
-    public float DragWithCursorForce = 0.02f;
-    public float DragWithCursorResistance = 0.01f;
-    public float DragWithCursorReleaseForce = 0.01f;
+    public float DragWithCursorForce = 0.008f;
+    public float DragWithCursorResistance = 10f;
+    public float DragWithCursorReleaseForce = 0.03f;
 
     void Start()
     {
@@ -31,9 +35,9 @@ public class Bubble : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!IsPopped && Game.Instance.Turns > 0)
+        if (Game.Instance.Turns > 0)
         {
-            Pop();
+            Pop(Game.Instance.BeginTurn());
         }
     }
 
@@ -59,15 +63,34 @@ public class Bubble : MonoBehaviour
         transform.position = Vector2.Lerp(transform.position, _originalPosition, DragWithCursorReleaseForce);
     }
 
-    public void Pop() 
+    public void Pop(Turn turn)
     {
-        Game.Instance.Turns--;
-        StartCoroutine(CoPop());
+        if (IsPopped)
+            return;
+
+        StartCoroutine(CoPop(turn));
     }
 
-    private IEnumerator CoPop()
+    public IEnumerator CoPop(Turn turn) 
     {
+        turn.ProcessingLevel++;
+
+        IsCurrentlyScoring = true;
         IsPopped = true;
+        StartCoroutine(CoPopAnimation());
+        yield return StartCoroutine(OnPop(turn));
+
+        IsCurrentlyScoring = false;
+
+        if (--turn.ProcessingLevel <= 0)
+            Game.Instance.EndTurn(turn);
+
+    }
+
+    protected abstract IEnumerator OnPop(Turn turn);
+
+    private IEnumerator CoPopAnimation()
+    {
         yield return StartCoroutine(CoScaleTo(PoppingScale, PoppingTime));
         _sprite.sprite = SpritePopped;
         yield return StartCoroutine(CoScaleTo(1f, PoppingTime));

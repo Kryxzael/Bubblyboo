@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2318723183439012016}
   - component: {fileID: 5693547118618688163}
   - component: {fileID: 8198532583500406087}
-  - component: {fileID: 4381237531281480728}
   m_Layer: 0
   m_Name: Bubble
   m_TagString: Untagged
@@ -102,24 +101,3 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &4381237531281480728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1537431530408078808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc630990d988da349a20f3c6ab9ad41b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsPopped: 0
-  SpriteUnpopped: {fileID: 21300000, guid: 9f679aee188ad4c4bb6277510bdf7c8a, type: 3}
-  SpritePopped: {fileID: 21300000, guid: f1f9434e3c511ce4594e09d9e025001b, type: 3}
-  PoppingScale: 1.25
-  PoppingTime: 0.15
-  PopBackTime: 0.075
-  DragWithCursorForce: 0.0075
-  DragWithCursorResistance: 10
-  DragWithCursorReleaseForce: 0.03

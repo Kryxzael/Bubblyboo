@@ -10,7 +10,7 @@ using UnityEngine;
 /// A value that will be determined by weighted randomness
 /// </summary>
 [Serializable]
-public class RandomValueFromSet
+public class RandomValueFromSet<T>
 {
     [Tooltip("The candidates of the random value set. There must be at least one item with a non-zero pickrate")]
     public List<WeightedRandomItem> Candidates = new List<WeightedRandomItem>();
@@ -19,7 +19,7 @@ public class RandomValueFromSet
     /// Picks a random item
     /// </summary>
     /// <returns></returns>
-    public float Pick()
+    public T Pick()
     {
         return Pick(new System.Random(UnityEngine.Random.Range(0, int.MaxValue)));
     }
@@ -29,7 +29,7 @@ public class RandomValueFromSet
     /// </summary>
     /// <param name="rng"></param>
     /// <returns></returns>
-    public float Pick(System.Random rng)
+    public T Pick(System.Random rng)
     {
         //If there are no valid candidates, throw.
         if (Candidates == null || !Candidates.Any() || Candidates.Sum(i => i.Pickrate) == 0)
@@ -56,7 +56,7 @@ public class RandomValueFromSet
     public struct WeightedRandomItem
     {
         [Tooltip("The item with a pickrate")]
-        public float Item;
+        public T Item;
 
         [Tooltip("The pickrate of the item")]
         [Range(0f, 1f)]
@@ -67,7 +67,7 @@ public class RandomValueFromSet
         /// </summary>
         /// <param name="item"></param>
         /// <param name="pickrate"></param>
-        public WeightedRandomItem(float item, float pickrate)
+        public WeightedRandomItem(T item, float pickrate)
         {
             Item = item;
             Pickrate = pickrate;

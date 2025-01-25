@@ -295,10 +295,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f55069451dd96124a90c7cdd484e2e49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BubblePrefab: {fileID: 4381237531281480728, guid: 3c00d46724eba4445b5ccc5cb0628435, type: 3}
+  BubblePrefab: {fileID: 6587003592298345494, guid: a1e1ef603cd6c7a4eb333e570c3e0dc5, type: 3}
   SizeX: 10
   SizeY: 10
   Spacing: 1
+  OffsetOdds: 1
 --- !u!4 &1813270919
 Transform:
   m_ObjectHideFlags: 0
