@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: RedBubbleShopItem
   m_EditorClassIdentifier: 
   Price: 5
-  Bubble: {fileID: 6587003592298345494, guid: d4a4e1497b079fc428c7a17813b70d2a, type: 3}
+  Bubble: {fileID: 2950686664528753831, guid: d4a4e1497b079fc428c7a17813b70d2a, type: 3}

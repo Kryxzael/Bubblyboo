@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,8 +41,17 @@ public class BubbleWrap : MonoBehaviour
 
     public void SpawnBubble(int x, int y, Bubble bubble)
     {
+        bool createMoney = UnityEngine.Random.value < Game.Instance.MoneySpawnRate;
+
         if (Grid[x, y] != null)
+        {
+            if (!Grid[x, y].IsPopped)
+                createMoney = Grid[x, y].HasMoney;
+            else
+                createMoney = false;
+
             Destroy(Grid[x, y].gameObject);
+        }
 
         float offsetX = 0;
         if (OffsetOdds && y % 2 == 1)
@@ -55,11 +65,17 @@ public class BubbleWrap : MonoBehaviour
         );
 
         Grid[x, y].GridPosition = new Vector2Int(x, y);
+
+        if (createMoney)
+        {
+            Grid[x, y].HasMoney = true;
+            Grid[x, y].MoneySprite.enabled = true;
+        }
     }
 
-    public IEnumerable<Bubble> GetNeighbors(int x, int y)
+    public IEnumerable<Bubble> GetNeighbors(int x, int y, bool extend)
     {
-        foreach (Vector2Int i in GetNeighborPositions(x, y))
+        foreach (Vector2Int i in extend ? GetExtendedNeighborPositions(x, y) : GetNeighborPositions(x, y))
         {
             if (i.x >= 0 && i.x < SizeX && i.y >= 0 && i.y < SizeY)
             {
@@ -97,6 +113,56 @@ public class BubbleWrap : MonoBehaviour
                 new(x, y + 1),
                 new(x + 1, y + 1),
             };
+        }
+    }
+
+    public static IEnumerable<Vector2Int> GetExtendedNeighborPositions(int x, int y)
+    {
+        IEnumerable<Vector2Int> nearestNeighbors = GetNeighborPositions(x, y);
+
+        if (y % 2 == 0)
+        {
+            return nearestNeighbors.Concat(new Vector2Int[]
+            {
+                new(x - 1, y - 2),
+                new(x,     y - 2),
+                new(x + 1, y - 2),
+
+                new(x - 2, y - 1),
+                new(x + 1, y - 1),
+
+                new(x - 2, y),
+                new(x + 2, y),
+
+                new(x - 2, y + 1),
+                new(x + 1, y + 1),
+
+                new(x - 1, y + 2),
+                new(x,     y + 2),
+                new(x + 1, y + 2),
+            });
+        }
+        else
+        {
+            return nearestNeighbors.Concat(new Vector2Int[]
+            {
+                new(x - 1, y - 2),
+                new(x,     y - 2),
+                new(x + 1, y - 2),
+                
+                new(x - 1, y - 1),
+                new(x + 2, y - 1),
+
+                new(x - 2, y),
+                new(x + 2, y),
+
+                new(x - 1, y + 1),
+                new(x + 2, y + 1),
+                
+                new(x - 1, y + 2),
+                new(x,     y + 2),
+                new(x + 1, y + 2),
+            });
         }
     }
 }

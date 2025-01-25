@@ -9,11 +9,13 @@ using UnityEngine;
 
 public class ExplodingBubble : Bubble
 {
+    public bool BigExplosion;
+
     protected override IEnumerator OnPop(Turn turn)
     {
-        yield return new PopChainDelay();
+        yield return new PopChainDelay(true);
 
-        foreach (Bubble i in Game.Instance.BubbleWrap.GetNeighbors(GridPosition.x, GridPosition.y))
+        foreach (Bubble i in Game.Instance.BubbleWrap.GetNeighbors(GridPosition.x, GridPosition.y, BigExplosion))
         {
             i.Pop(turn);
         }

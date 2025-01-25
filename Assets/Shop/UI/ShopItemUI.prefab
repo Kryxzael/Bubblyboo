@@ -165,6 +165,7 @@ GameObject:
   - component: {fileID: 4968015256219090835}
   - component: {fileID: 5061330391469687714}
   - component: {fileID: 4644534853087897203}
+  - component: {fileID: 7018553120445833500}
   m_Layer: 5
   m_Name: ShopItemUI
   m_TagString: Untagged
@@ -206,6 +207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Item: {fileID: 0}
+  ShopIndex: 0
   PriceTag: {fileID: 4968015257105676793}
   Sprite: {fileID: 4968015255765476682}
 --- !u!114 &4644534853087897203
@@ -264,6 +266,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7018553120445833500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4968015256219090828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94cda571c8b5ee74e866d758dc1ad1bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StartScale: 1.5
+  Time: 0.25
+  ScaleOnSpawn: 0
 --- !u!1 &4968015257105676795
 GameObject:
   m_ObjectHideFlags: 0

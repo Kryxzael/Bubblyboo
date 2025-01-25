@@ -55,6 +55,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5693547118618688163, guid: 3c00d46724eba4445b5ccc5cb0628435, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1389517119, guid: b53299d02a09b064b8e88fe48ebc53de, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c00d46724eba4445b5ccc5cb0628435, type: 3}
 --- !u!1 &6146072356502605513 stripped
@@ -75,13 +79,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsPopped: 0
-  SpriteUnpopped: {fileID: 21300000, guid: 9f679aee188ad4c4bb6277510bdf7c8a, type: 3}
-  SpritePopped: {fileID: 21300000, guid: f1f9434e3c511ce4594e09d9e025001b, type: 3}
+  HasMoney: 0
+  SpriteUnpopped: {fileID: 1389517119, guid: b53299d02a09b064b8e88fe48ebc53de, type: 3}
+  SpritePopped: {fileID: 223498457, guid: b53299d02a09b064b8e88fe48ebc53de, type: 3}
   PoppingScale: 1.25
   PoppingTime: 0.15
   PopBackTime: 0.075
-  SpawnScale: 1.5
-  SpawnScaleTime: 0.25
   DragWithCursorForce: 0.008
   DragWithCursorResistance: 10
   DragWithCursorReleaseForce: 0.03

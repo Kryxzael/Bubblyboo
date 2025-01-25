@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,10 +10,15 @@ public abstract class Bubble : MonoBehaviour
     private Vector3 _cursorLastPosition;
     private Vector3 _originalPosition;
 
+    [NonSerialized]
+    public SpriteRenderer MoneySprite;
+
     public Vector2Int GridPosition { get; set; }
     public bool IsCurrentlyScoring { get; private set; }
 
     public bool IsPopped;
+
+    public bool HasMoney;
 
     [Header("Greefiks")]
     public Sprite SpriteUnpopped;
@@ -22,20 +28,20 @@ public abstract class Bubble : MonoBehaviour
     public float PoppingTime = 0.15f;
     public float PopBackTime = 0.075f;
 
-    public float SpawnScale = 2f;
-    public float SpawnScaleTime = 0.5f;
-
     public float DragWithCursorForce = 0.008f;
     public float DragWithCursorResistance = 10f;
     public float DragWithCursorReleaseForce = 0.03f;
 
+    private void Awake()
+    {
+        MoneySprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        _sprite = GetComponent<SpriteRenderer>();
+    }
+
     void Start()
     {
-        _sprite = GetComponent<SpriteRenderer>();
         _sprite.sprite = SpriteUnpopped;
         _originalPosition = transform.position;
-
-        StartCoroutine(CoScaleTo(SpawnScale, 1f, SpawnScaleTime));
     }
 
     private void OnMouseDown()
@@ -74,11 +80,12 @@ public abstract class Bubble : MonoBehaviour
         transform.position = Vector2.Lerp(transform.position, _originalPosition, DragWithCursorReleaseForce);
     }
 
-    public void Pop(Turn turn)
+    public void Pop(Turn turn, bool isRetrigger = false)
     {
-        if (IsPopped)
+        if (IsPopped && !isRetrigger)
             return;
 
+        turn.Popped.Add(this);
         StartCoroutine(CoPop(turn));
     }
 
@@ -88,8 +95,17 @@ public abstract class Bubble : MonoBehaviour
 
         IsCurrentlyScoring = true;
         IsPopped = true;
+
+        if (HasMoney)
+        {
+            int money = Game.Instance.PickUpMoney();
+            Game.Instance.CreateDamageNumber("$" + money, Color.yellow, 1.1f, this);
+            yield return new PopChainDelay(true);
+        }
+
         StartCoroutine(CoPopAnimation());
         yield return StartCoroutine(OnPop(turn));
+        turn.Multiplier += 1;
 
         IsCurrentlyScoring = false;
 
@@ -104,6 +120,7 @@ public abstract class Bubble : MonoBehaviour
     {
         yield return StartCoroutine(CoScaleTo(1f, PoppingScale, PoppingTime));
         _sprite.sprite = SpritePopped;
+        MoneySprite.enabled = false;
         yield return StartCoroutine(CoScaleTo(PoppingScale, 1f, PoppingTime));
     }
 

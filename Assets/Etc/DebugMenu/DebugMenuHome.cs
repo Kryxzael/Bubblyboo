@@ -20,10 +20,5 @@ public class DebugMenuHome : DebugPage
             UnityEngine.Object.FindObjectOfType<DebugMenu>().NavigationStack.Push(new ShopDebugMenu());
 
         Separator();
-
-        if (Game.Instance.CurrentTurn != null)
-        {
-            ReadOnly("+" + Game.Instance.CurrentTurn.Points + " x " + Game.Instance.CurrentTurn.Multiplier);
-        }
     }
 }

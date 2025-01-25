@@ -56,16 +56,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5693547118618688163, guid: 3c00d46724eba4445b5ccc5cb0628435, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1737898509, guid: b53299d02a09b064b8e88fe48ebc53de, type: 3}
+    - target: {fileID: 5693547118618688163, guid: 3c00d46724eba4445b5ccc5cb0628435, type: 3}
       propertyPath: m_Color.b
-      value: 0.13016199
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5693547118618688163, guid: 3c00d46724eba4445b5ccc5cb0628435, type: 3}
       propertyPath: m_Color.g
-      value: 0.13016199
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5693547118618688163, guid: 3c00d46724eba4445b5ccc5cb0628435, type: 3}
       propertyPath: m_Color.r
-      value: 0.4245283
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c00d46724eba4445b5ccc5cb0628435, type: 3}
@@ -87,13 +91,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsPopped: 0
-  SpriteUnpopped: {fileID: 21300000, guid: 9f679aee188ad4c4bb6277510bdf7c8a, type: 3}
-  SpritePopped: {fileID: 21300000, guid: f1f9434e3c511ce4594e09d9e025001b, type: 3}
+  HasMoney: 0
+  SpriteUnpopped: {fileID: -1737898509, guid: b53299d02a09b064b8e88fe48ebc53de, type: 3}
+  SpritePopped: {fileID: -239892036, guid: b53299d02a09b064b8e88fe48ebc53de, type: 3}
   PoppingScale: 1.25
   PoppingTime: 0.15
   PopBackTime: 0.075
-  SpawnScale: 2
-  SpawnScaleTime: 0.25
   DragWithCursorForce: 0.008
   DragWithCursorResistance: 10
   DragWithCursorReleaseForce: 0.03
+  BigExplosion: 1

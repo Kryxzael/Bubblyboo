@@ -1,3 +1,5 @@
+using Assets.Etc;
+
 using System.Collections;
 using System.Collections.Generic;
 
@@ -9,6 +11,8 @@ using UnityEngine.UI;
 public class ShopUIItem : MonoBehaviour
 {
     public ShopItem Item;
+
+    public int ShopIndex;
 
     [Header("Components")]
     public TextMeshProUGUI PriceTag;
@@ -26,8 +30,14 @@ public class ShopUIItem : MonoBehaviour
     {
         if (Game.Instance.Money >= Item.Price)
         {
-            Game.Instance.Shop.Purchase(Item);
-            GetComponentInParent<ShopUIBelt>().RegenerateItems();
+            Game.Instance.Shop.Purchase(Item, ShopIndex);
+
+            ShopUIBelt belt = GetComponentInParent<ShopUIBelt>();
+            belt.RegenerateItems(false);
+
+            //A hate myself:
+            belt.transform.GetChild(ShopIndex).GetComponent<ScaleIn>().ScaleNow();
+
         }
     }
 }
