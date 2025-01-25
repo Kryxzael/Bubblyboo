@@ -80,6 +80,8 @@ MonoBehaviour:
   PoppingScale: 1.25
   PoppingTime: 0.15
   PopBackTime: 0.075
+  SpawnScale: 1.5
+  SpawnScaleTime: 0.25
   DragWithCursorForce: 0.008
   DragWithCursorResistance: 10
   DragWithCursorReleaseForce: 0.03

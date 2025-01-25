@@ -22,6 +22,9 @@ public abstract class Bubble : MonoBehaviour
     public float PoppingTime = 0.15f;
     public float PopBackTime = 0.075f;
 
+    public float SpawnScale = 2f;
+    public float SpawnScaleTime = 0.5f;
+
     public float DragWithCursorForce = 0.008f;
     public float DragWithCursorResistance = 10f;
     public float DragWithCursorReleaseForce = 0.03f;
@@ -31,11 +34,19 @@ public abstract class Bubble : MonoBehaviour
         _sprite = GetComponent<SpriteRenderer>();
         _sprite.sprite = SpriteUnpopped;
         _originalPosition = transform.position;
+
+        StartCoroutine(CoScaleTo(SpawnScale, 1f, SpawnScaleTime));
     }
 
     private void OnMouseDown()
     {
-        if (Game.Instance.Turns > 0)
+        if (Game.Instance.Shop.PurchasingItem != null)
+        {
+            Game.Instance.Shop.PurchasingItem.OnPlacePurchase(this, GridPosition.x, GridPosition.y);
+            Game.Instance.Shop.PurchasingItem = null;
+            Game.Instance.GhostSprite.enabled = false;
+        }
+        else if (Game.Instance.Turns > 0)
         {
             Pop(Game.Instance.BeginTurn());
         }
@@ -91,16 +102,16 @@ public abstract class Bubble : MonoBehaviour
 
     private IEnumerator CoPopAnimation()
     {
-        yield return StartCoroutine(CoScaleTo(PoppingScale, PoppingTime));
+        yield return StartCoroutine(CoScaleTo(1f, PoppingScale, PoppingTime));
         _sprite.sprite = SpritePopped;
-        yield return StartCoroutine(CoScaleTo(1f, PoppingTime));
+        yield return StartCoroutine(CoScaleTo(PoppingScale, 1f, PoppingTime));
     }
 
-    private IEnumerator CoScaleTo(float scalar, float time) 
+    private IEnumerator CoScaleTo(float fromScale, float toScale, float time) 
     {
         float timer = 0;
-        Vector3 oldScale = transform.localScale;
-        Vector3 newScale = oldScale * scalar;
+        Vector3 oldScale = Vector3.one * fromScale;
+        Vector3 newScale = Vector3.one * toScale;
 
         while (timer < time)
         {
@@ -108,5 +119,7 @@ public abstract class Bubble : MonoBehaviour
             timer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
+
+        transform.localScale = newScale;
     }
 }
