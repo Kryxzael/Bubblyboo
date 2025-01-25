@@ -12,6 +12,8 @@ public class DebugMenuHome : DebugPage
     {
         ReadOnly("Points: " + Game.Instance.Points);
         ReadOnly("Turns: " + Game.Instance.Turns);
+        ReadOnly("$" + Game.Instance.Money);
+
         Separator();
 
         if (Button("Shop"))

@@ -10,11 +10,19 @@ public class ShopDebugMenu : DebugPage
 
     protected override void RunItems(DebugMenu caller)
     {
+        ReadOnly("$" + Game.Instance.Money);
+
+        if (Button("Gib moneeeeey!"))
+            Game.Instance.Money++;
+
+        Separator();
+
         foreach (ShopItem i in Game.Instance.Shop.Items.ToArray())
         {
             if (Button(i.name + " ($" + i.Price + ")"))
             {
-                Game.Instance.Shop.Purchase(i);
+                if (Game.Instance.Money >= i.Price)
+                    Game.Instance.Shop.Purchase(i);
             }
         }
     }

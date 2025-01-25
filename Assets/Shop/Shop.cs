@@ -15,6 +15,7 @@ public class Shop : MonoBehaviour
 
     public void Purchase(ShopItem item)
     {
+        Game.Instance.Money -= item.Price;
         PurchasingItem = item;
         Items.Remove(item);
         

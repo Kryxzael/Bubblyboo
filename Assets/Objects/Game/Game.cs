@@ -13,6 +13,7 @@ public class Game : MonoBehaviour
 
     public int Points;
     public int Turns = 10;
+    public int Money = 0;
 
     public Turn CurrentTurn;
 
