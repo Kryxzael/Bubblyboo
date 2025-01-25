@@ -852,7 +852,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Points: 0
   Turns: 20
-  Money: 0
+  Money: 999
   MinimumPickup: 1
   MaxiumPickup: 8
   ExcitementLevel: 0
@@ -906,7 +906,7 @@ MonoBehaviour:
     - Item: {fileID: 11400000, guid: 60b81d37dd6bf8848a0bac905efcb9aa, type: 2}
       Pickrate: 1
     - Item: {fileID: 11400000, guid: 616be887706ff6845aed107f14d74e35, type: 2}
-      Pickrate: 0.25
+      Pickrate: 1
     - Item: {fileID: 11400000, guid: 8188f54a23e2de84d8a1b2cadfbe52e2, type: 2}
       Pickrate: 0.2
     - Item: {fileID: 11400000, guid: f8fc1e742c4e26746b7c019ffd25c606, type: 2}
@@ -1251,8 +1251,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ab16b3cfa79d0441b53f9cbb30a862a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxShake: 10
-  MaxRotate: 40
+  MaxShake: 30
+  MaxRotate: 60
   Speed: 10
 --- !u!102 &1471931272
 TextMesh:
