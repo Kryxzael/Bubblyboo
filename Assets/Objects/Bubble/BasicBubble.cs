@@ -11,6 +11,8 @@ public class BasicBubble : Bubble
 {
     public int Points = 1;
     public int Retriggers = 0;
+    public int Turns = 0;
+    public int Money = 0;
 
     protected override IEnumerator OnPop(Turn turn)
     {
@@ -25,8 +27,28 @@ public class BasicBubble : Bubble
         if (Retriggers != 0 && !turn.InRetrigger)
         {
             yield return new PopChainDelay(true);
-            Game.Instance.CreateDamageNumber("Re-Pop!", Color.green, 1.5f, this);
+            Game.Instance.CreateDamageNumber("Re-pop!", Color.green, 1.5f, this);
             turn.Retriggers += Retriggers;
+        }
+
+        if (Turns != 0)
+        {
+            yield return new PopChainDelay(true);
+            string turnsText = Turns > 1 ? " turns" : " turn";
+
+            Game.Instance.CreateDamageNumber("+" + Turns + turnsText, Color.blue, 1.5f, this);
+            Game.Instance.Turns += Turns;
+        }
+
+        if (Money != 0)
+        {
+            yield return new PopChainDelay(true);
+
+            Game.Instance.CreateDamageNumber("$" + Money, Color.yellow, 1.5f, this);
+            Game.Instance.Money += Money;
+
+            AudioSource goldSound = transform.Find("GoldSound").GetComponent<AudioSource>();
+            goldSound.pitch = UnityEngine.Random.Range(0.5f, 0.7f);
         }
 
         Game.Instance.Points += pnts;

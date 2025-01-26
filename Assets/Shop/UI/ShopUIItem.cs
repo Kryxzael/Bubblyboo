@@ -50,7 +50,9 @@ public class ShopUIItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             pivotX = 1;
 
         (Game.Instance.Tooltip.transform as RectTransform).pivot = new Vector2(pivotX, 0);
-        Game.Instance.SetTooltip(Item.Name, Item.Description);
+
+        if (Item != null)
+            Game.Instance.SetTooltip(Item.Name, Item.Description);
     }
 
     public void OnPointerExit(PointerEventData eventData)

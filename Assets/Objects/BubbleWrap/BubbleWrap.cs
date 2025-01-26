@@ -20,15 +20,35 @@ public class BubbleWrap : MonoBehaviour
 
     public bool OffsetOdds;
 
-    // Start is called before the first frame update
     void Start()
+    {
+        SpawnInitialGrid();
+    }
+
+    public void SpawnInitialGrid()
     {
         StartCoroutine(CoSpawnInitialGrid());
     }
 
     private IEnumerator CoSpawnInitialGrid()
     {
+        if (Grid != null)
+        {
+            foreach (Bubble i in Grid)
+            {
+                try
+                {
+                    Destroy(i.gameObject);
+                }
+                catch (Exception)
+                {
+                    //Two hours left of jam, no idea why this doesn't always work. Fuck it
+                }
+            }
+        }
+
         Grid = new Bubble[SizeX, SizeY];
+
         for (int x = 0; x < SizeX; x++)
         {
             for (int y = 0; y < SizeY; y++)

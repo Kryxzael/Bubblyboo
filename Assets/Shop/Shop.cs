@@ -15,10 +15,7 @@ public class Shop : MonoBehaviour
     public RandomValueFromSet<ShopItem> AvailableItems;
     public List<ShopItem> Items = new();
 
-    public int[] RestockThresholds = { 0, 5, 10, 20, 50, 100, 250, 800, 2000, 6000, 10_000, 50_000, 200_000, 4_000_000, 100_000_000, 500_000_000, 999_999_999 };
-
-    public int RestockCount;
-    public int NextRestock = 0;
+    public int RestockTurns = 8;
 
     private void Start()
     {
@@ -40,9 +37,6 @@ public class Shop : MonoBehaviour
 
     public void Restock()
     {
-        NextRestock = RestockThresholds[RestockCount];
-        RestockCount++;
-
         Items.Clear();
 
         for (int i = 0; i < MaxItemSlots; i++)

@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,8 +35,14 @@ public class Game : MonoBehaviour
     public Tooltip Tooltip { get; private set; }
     public DamageNumber DamageNumberPrefab;
 
+    public int ClearAddedTurns = 20;
+    public int ClearAddedMoney = 50;
+    public int TurnNumber = 0;
+
     private void Awake()
     {
+        Screen.SetResolution(560, 428, false);
+
         Instance = this;
         BubbleWrap = FindObjectOfType<BubbleWrap>();
         Shop = FindObjectOfType<Shop>();
@@ -52,7 +59,14 @@ public class Game : MonoBehaviour
 
     public Turn BeginTurn()
     {
+        TurnNumber++;
         Turns--;
+
+        if (TurnNumber % Shop.RestockTurns == 0)
+        {
+            Shop.Restock();
+        }
+
         CurrentTurn = new Turn();
         return CurrentTurn;
     }
@@ -64,19 +78,45 @@ public class Game : MonoBehaviour
         if (turn.Retriggers > 0)
         {
             turn.Retriggers--;
-
-            foreach (Bubble bubble in turn.Popped)
-            {
-                bubble.Pop(turn);
-            }
-
+            StartCoroutine(CoRetrigger(turn));
             return;
         }
 
-        if (Points >= Shop.NextRestock)
+        foreach (Bubble i in BubbleWrap.Grid)
         {
-            Shop.Restock();
+            if (!i.IsPopped)
+                return;
         }
+
+        StartCoroutine(CoClearSheet(turn));
+    }
+
+    private IEnumerator CoRetrigger(Turn turn)
+    {
+        foreach (Bubble bubble in turn.Popped)
+        {
+            bubble.Pop(turn);
+            yield return new PopChainDelay(false);
+        }
+    }
+
+    private IEnumerator CoClearSheet(Turn turn)
+    {
+        Bubble center = BubbleWrap.Grid[BubbleWrap.SizeX / 2, BubbleWrap.SizeY / 2];
+
+        CreateDamageNumber("Sheet Cleared!", Color.cyan, 3f, center);
+        yield return new WaitForSeconds(1f);
+
+        CreateDamageNumber("+" + ClearAddedTurns + " turns", Color.blue, 2f, center);
+        Turns += ClearAddedTurns;
+        yield return new WaitForSeconds(1f);
+
+        CreateDamageNumber("$" + ClearAddedMoney, Color.yellow, 2f, center);
+        Money += ClearAddedMoney;
+        yield return new WaitForSeconds(1f);
+
+
+        BubbleWrap.SpawnInitialGrid();
     }
 
     public int PickUpMoney()

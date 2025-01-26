@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f0862d24f40c694a84027de2ead40fa, type: 3}
   m_Name: ExplodingBubbleShopItem
   m_EditorClassIdentifier: 
-  Price: 10
+  Price: 30
   Bubble: {fileID: 1521091432604601792, guid: d2a14b3bf34bce840a749dc0fdd8b9f0, type: 3}

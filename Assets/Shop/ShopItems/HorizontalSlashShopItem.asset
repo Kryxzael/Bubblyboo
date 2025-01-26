@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f0862d24f40c694a84027de2ead40fa, type: 3}
-  m_Name: VerticalForwardSlashShopItem
+  m_Name: HorizontalSlashShopItem
   m_EditorClassIdentifier: 
-  Price: 15
-  Bubble: {fileID: 40551533869975645, guid: 55b8e3d2a8c7ec144837f26306dc367c, type: 3}
+  Price: 20
+  Bubble: {fileID: 527774046413585625, guid: dc99d9677b350124fa41e95da159d466, type: 3}

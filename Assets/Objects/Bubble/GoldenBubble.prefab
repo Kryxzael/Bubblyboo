@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1537431530408078808, guid: 3c00d46724eba4445b5ccc5cb0628435, type: 3}
       propertyPath: m_Name
-      value: BlueBubble
+      value: GoldenBubble
       objectReference: {fileID: 0}
     - target: {fileID: 2318723183439012016, guid: 3c00d46724eba4445b5ccc5cb0628435, type: 3}
       propertyPath: m_RootOrder
@@ -100,7 +100,9 @@ MonoBehaviour:
   DragWithCursorForce: 0.008
   DragWithCursorResistance: 10
   DragWithCursorReleaseForce: 0.03
-  Name: Blue Bubble
-  Description: +1 point. +1 re-pop
-  Points: 1
-  Retriggers: 1
+  Name: Golden Bubble
+  Description: +$20
+  Points: 0
+  Retriggers: 0
+  Turns: 0
+  Money: 20

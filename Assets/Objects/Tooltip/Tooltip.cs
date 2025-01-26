@@ -12,14 +12,12 @@ public class Tooltip : MonoBehaviour
     public TextMeshProUGUI Header;
     public TextMeshProUGUI Body;
 
-    private void Awake()
-    {
-        _canvas = FindObjectOfType<Canvas>();
-    }
-
     // Update is called once per frame
     public void Update()
     {
+        _canvas ??= FindObjectOfType<Canvas>();
+
+
         // Get the mouse position in screen space
         Vector2 screenPosition = Input.mousePosition;
 

@@ -16,6 +16,14 @@ public abstract class GenericLabel : MonoBehaviour
     private TextSmack _smack;
     private string _lastText;
 
+    public virtual bool PerformSmack
+    {
+        get
+        {
+            return true;
+        }
+    }
+
     private void Awake()
     {
         _pro = GetComponent<TextMeshProUGUI>();
@@ -28,7 +36,7 @@ public abstract class GenericLabel : MonoBehaviour
 
         if (_lastText != _pro.text)
         {
-            if (_lastText != null)
+            if (_lastText != null && PerformSmack)
                 _smack.Smack();
             
             _lastText = _pro.text;

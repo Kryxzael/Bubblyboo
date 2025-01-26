@@ -18,9 +18,22 @@ public class ExplodingBubble : Bubble
 
         yield return new PopChainDelay(true);
 
+        if (BigExplosion)
+        {
+            foreach (Bubble i in Game.Instance.BubbleWrap.Grid)
+            {
+                if (i.IsPopped)
+                    continue;
+
+                i.transform.position += UnityEngine.Random.insideUnitSphere * 0.2f;
+            }
+        }
+        
+
         foreach (Bubble i in Game.Instance.BubbleWrap.GetNeighbors(GridPosition.x, GridPosition.y, BigExplosion))
         {
             i.Pop(turn);
+            yield return new PopChainDelay(false);
         }
     }
 }

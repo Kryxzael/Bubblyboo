@@ -9,9 +9,11 @@ public abstract class Bubble : MonoBehaviour
     private SpriteRenderer _sprite;
     private Vector3 _cursorLastPosition;
     private Vector3 _originalPosition;
+    private AudioSource _popAudio;
 
     [NonSerialized]
     public SpriteRenderer MoneySprite;
+
 
     public Vector2Int GridPosition { get; set; }
     public bool IsCurrentlyScoring { get; private set; }
@@ -40,6 +42,7 @@ public abstract class Bubble : MonoBehaviour
     {
         MoneySprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
         _sprite = GetComponent<SpriteRenderer>();
+        _popAudio = transform.Find("PopSound").GetComponent<AudioSource>();
     }
 
     void Start()
@@ -56,7 +59,7 @@ public abstract class Bubble : MonoBehaviour
             Game.Instance.Shop.PurchasingItem = null;
             Game.Instance.GhostSprite.enabled = false;
         }
-        else if (Game.Instance.Turns > 0)
+        else if (Game.Instance.Turns > 0 && !IsPopped)
         {
             Pop(Game.Instance.BeginTurn());
         }
@@ -67,6 +70,13 @@ public abstract class Bubble : MonoBehaviour
         _cursorLastPosition = Input.mousePosition;
         (Game.Instance.Tooltip.transform as RectTransform).pivot = new Vector2(0, 1);
         Game.Instance.SetTooltip(Name, Description);
+
+        if (!IsPopped)
+        {
+            AudioSource rubSound = transform.Find("HoverSound").GetChild(UnityEngine.Random.Range(0, 3)).GetComponent<AudioSource>();
+            rubSound.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+            rubSound.Play();
+        }
     }
 
     private void OnMouseExit()
@@ -83,7 +93,6 @@ public abstract class Bubble : MonoBehaviour
         transform.position = Vector2.Lerp(transform.position, transform.position + mouseDelta, DragWithCursorForce);
 
         _cursorLastPosition = Input.mousePosition;
-
     }
 
     private void Update()
@@ -110,12 +119,16 @@ public abstract class Bubble : MonoBehaviour
 
         if (HasMoney)
         {
+            AudioSource goldSound = transform.Find("GoldSound").GetComponent<AudioSource>();
+            goldSound.pitch = UnityEngine.Random.Range(0.5f, 0.7f);
+            goldSound.Play();
+
             int money = Game.Instance.PickUpMoney();
             Game.Instance.CreateDamageNumber("$" + money, Color.yellow, 1.1f, this);
             yield return new PopChainDelay(true);
         }
 
-        StartCoroutine(CoPopAnimation());
+        StartCoroutine(CoPopAnimation(turn.Multiplier));
         yield return StartCoroutine(OnPop(turn));
         turn.Multiplier += 1;
 
@@ -128,10 +141,22 @@ public abstract class Bubble : MonoBehaviour
 
     protected abstract IEnumerator OnPop(Turn turn);
 
-    private IEnumerator CoPopAnimation()
+    private IEnumerator CoPopAnimation(float multiplier)
     {
         yield return StartCoroutine(CoScaleTo(1f, PoppingScale, PoppingTime));
         _sprite.sprite = SpritePopped;
+
+        _popAudio.pitch = 1f + 0.1f * multiplier;
+        _popAudio.Play();
+
+        foreach (Bubble i in Game.Instance.BubbleWrap.GetNeighbors(GridPosition.x, GridPosition.y, false))
+        {
+            if (i.IsPopped)
+                continue;
+
+            i.transform.position += (i.transform.position - transform.position) * 0.1f;
+        }
+
         MoneySprite.enabled = false;
         yield return StartCoroutine(CoScaleTo(PoppingScale, 1f, PoppingTime));
     }
