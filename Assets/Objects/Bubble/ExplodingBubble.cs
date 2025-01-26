@@ -13,6 +13,9 @@ public class ExplodingBubble : Bubble
 
     protected override IEnumerator OnPop(Turn turn)
     {
+        if (turn.InRetrigger)
+            yield break;
+
         yield return new PopChainDelay(true);
 
         foreach (Bubble i in Game.Instance.BubbleWrap.GetNeighbors(GridPosition.x, GridPosition.y, BigExplosion))

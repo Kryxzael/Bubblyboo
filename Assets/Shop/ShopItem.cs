@@ -10,6 +10,9 @@ public abstract class ShopItem : ScriptableObject
 {
     public int Price;
 
+    public abstract string Name { get; }
+    public abstract string Description { get; }
+
     public abstract void OnPlacePurchase(Bubble target, int targetX, int targetY);
 
     public abstract Sprite GetGhostSprite();

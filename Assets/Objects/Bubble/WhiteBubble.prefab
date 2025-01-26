@@ -88,5 +88,7 @@ MonoBehaviour:
   DragWithCursorForce: 0.008
   DragWithCursorResistance: 10
   DragWithCursorReleaseForce: 0.03
+  Name: Bubble
+  Description: +1 point
   Points: 1
-  Multiplier: 0
+  Retriggers: 0

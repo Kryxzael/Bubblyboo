@@ -100,4 +100,6 @@ MonoBehaviour:
   DragWithCursorForce: 0.008
   DragWithCursorResistance: 10
   DragWithCursorReleaseForce: 0.03
+  Name: Megaton Bubble
+  Description: Explodes, popping all bubbles within 2 spaces of itself.
   BigExplosion: 1

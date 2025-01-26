@@ -11,6 +11,9 @@ public class ShopItemBubble : ShopItem
 {
     public Bubble Bubble;
 
+    public override string Name => Bubble.Name;
+    public override string Description => Bubble.Description;
+
     public override void OnPlacePurchase(Bubble target, int targetX, int targetY)
     {
         Game.Instance.BubbleWrap.SpawnBubble(targetX, targetY, Bubble);

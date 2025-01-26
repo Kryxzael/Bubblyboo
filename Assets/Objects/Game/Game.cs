@@ -31,6 +31,7 @@ public class Game : MonoBehaviour
     public BubbleWrap BubbleWrap { get; private set; }
     public Shop Shop { get; private set; }
     public SpriteRenderer GhostSprite { get; private set; }
+    public Tooltip Tooltip { get; private set; }
     public DamageNumber DamageNumberPrefab;
 
     private void Awake()
@@ -39,6 +40,9 @@ public class Game : MonoBehaviour
         BubbleWrap = FindObjectOfType<BubbleWrap>();
         Shop = FindObjectOfType<Shop>();
         GhostSprite = FindObjectOfType<FollowCursor>(includeInactive: true).GetComponent<SpriteRenderer>();
+        Tooltip = FindObjectOfType<Tooltip>();
+
+        Tooltip.gameObject.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -55,18 +59,18 @@ public class Game : MonoBehaviour
 
     public void EndTurn(Turn turn)
     {
-        //TODO: Straight up not working right
-        if (turn.AllowRetriggers)
-        {
-            turn.AllowRetriggers = false;
+        turn.InRetrigger = true;
 
-            for (int i = 0; i < turn.Retriggers; i++)
+        if (turn.Retriggers > 0)
+        {
+            turn.Retriggers--;
+
+            foreach (Bubble bubble in turn.Popped)
             {
-                foreach (Bubble bubble in turn.Popped)
-                {
-                    bubble.Pop(turn);
-                }
+                bubble.Pop(turn);
             }
+
+            return;
         }
 
         if (Points >= Shop.NextRestock)
@@ -88,5 +92,24 @@ public class Game : MonoBehaviour
         spawned.Text = text;
         spawned.Color = color;
         spawned.Size = size;
+    }
+
+    public void SetTooltip(string header, string body)
+    {
+        Tooltip.Header.text = header;
+        Tooltip.Body.text = body;
+        Tooltip.Update(); //Ouch
+        Invoke(nameof(ShowTooltip), 1f);
+    }
+
+    public void UnsetTooltip()
+    {
+        Tooltip.gameObject.SetActive(false);
+        CancelInvoke(nameof(ShowTooltip));
+    }
+
+    private void ShowTooltip()
+    {
+        Tooltip.gameObject.SetActive(true);
     }
 }

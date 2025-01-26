@@ -22,14 +22,14 @@ public class BasicBubble : Bubble
             Game.Instance.CreateDamageNumber("+" + pnts, Color.gray, 1f, this);
         }
 
-        if (Retriggers != 0 && turn.AllowRetriggers)
+        if (Retriggers != 0 && !turn.InRetrigger)
         {
             yield return new PopChainDelay(true);
             Game.Instance.CreateDamageNumber("Re-Pop!", Color.green, 1.5f, this);
+            turn.Retriggers += Retriggers;
         }
 
         Game.Instance.Points += pnts;
         Game.Instance.ExcitementLevel = Mathf.Min(1f, Game.Instance.ExcitementLevel + Game.Instance.ExcitementIncreasePerPoint * pnts);
-        turn.Retriggers += Retriggers;
     }
 }

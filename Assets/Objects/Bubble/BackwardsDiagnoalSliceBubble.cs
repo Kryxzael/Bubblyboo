@@ -11,12 +11,14 @@ public class BackwardsDiagnoalSliceBubble : Bubble
 {
     protected override IEnumerator OnPop(Turn turn)
     {
+        if (turn.InRetrigger)
+            yield break;
+
         Vector2Int up    = GridPosition;
         Vector2Int down  = GridPosition;
         spread();
 
         yield return new PopChainDelay(true);
-
 
         while ((up.y < Game.Instance.BubbleWrap.SizeY && up.x >= 0) || (down.y >= 0 && down.x < Game.Instance.BubbleWrap.SizeX))
         {

@@ -88,5 +88,7 @@ MonoBehaviour:
   DragWithCursorForce: 0.008
   DragWithCursorResistance: 10
   DragWithCursorReleaseForce: 0.03
+  Name: Double Bubble
+  Description: +1 point. +1 re-pop
   Points: 1
   Retriggers: 1

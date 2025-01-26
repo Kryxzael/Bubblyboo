@@ -11,6 +11,9 @@ public class ForwardDiagnoalSliceBubble : Bubble
 {
     protected override IEnumerator OnPop(Turn turn)
     {
+        if (turn.InRetrigger)
+            yield break;
+
         Vector2Int up    = GridPosition;
         Vector2Int down  = GridPosition;
         spread();

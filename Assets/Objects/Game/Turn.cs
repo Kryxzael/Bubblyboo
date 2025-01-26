@@ -8,7 +8,8 @@ public class Turn
 {
     public float Multiplier = 1;
     public int Retriggers = 0;
-    public bool AllowRetriggers = true;
+
+    public bool InRetrigger;
 
     public HashSet<Bubble> Popped = new();
 

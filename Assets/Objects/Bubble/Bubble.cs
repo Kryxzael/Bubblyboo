@@ -32,6 +32,10 @@ public abstract class Bubble : MonoBehaviour
     public float DragWithCursorResistance = 10f;
     public float DragWithCursorReleaseForce = 0.03f;
 
+    [Header("Tooltip")]
+    public string Name;
+    public string Description;
+
     private void Awake()
     {
         MoneySprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
@@ -61,6 +65,13 @@ public abstract class Bubble : MonoBehaviour
     private void OnMouseEnter()
     {
         _cursorLastPosition = Input.mousePosition;
+        (Game.Instance.Tooltip.transform as RectTransform).pivot = new Vector2(0, 1);
+        Game.Instance.SetTooltip(Name, Description);
+    }
+
+    private void OnMouseExit()
+    {
+        Game.Instance.UnsetTooltip();
     }
 
     private void OnMouseOver()
@@ -80,11 +91,12 @@ public abstract class Bubble : MonoBehaviour
         transform.position = Vector2.Lerp(transform.position, _originalPosition, DragWithCursorReleaseForce);
     }
 
-    public void Pop(Turn turn, bool isRetrigger = false)
+    public void Pop(Turn turn)
     {
-        if (IsPopped && !isRetrigger)
+        if (IsPopped && !turn.InRetrigger)
             return;
 
+        _sprite.sprite = SpriteUnpopped;
         turn.Popped.Add(this);
         StartCoroutine(CoPop(turn));
     }

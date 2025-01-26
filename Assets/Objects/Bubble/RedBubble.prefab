@@ -100,3 +100,6 @@ MonoBehaviour:
   DragWithCursorForce: 0.008
   DragWithCursorResistance: 10
   DragWithCursorReleaseForce: 0.03
+  Name: Exploding Bubble
+  Description: Explodes, popping all bubbles within 1 space of itself.
+  BigExplosion: 0

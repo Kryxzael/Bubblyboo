@@ -9,6 +9,9 @@ public class HorizontalSliceBubble : Bubble
 {
     protected override IEnumerator OnPop(Turn turn)
     {
+        if (turn.InRetrigger)
+            yield break;
+
         int left  = GridPosition.x - 1;
         int right = GridPosition.x + 1;
 

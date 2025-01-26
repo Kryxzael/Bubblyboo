@@ -104,3 +104,5 @@ MonoBehaviour:
   DragWithCursorForce: 0.008
   DragWithCursorResistance: 10
   DragWithCursorReleaseForce: 0.03
+  Name: Slicer Bubble
+  Description: Pops all bubbles on the row this bubble is on
